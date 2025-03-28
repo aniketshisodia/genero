@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tickets - GENERO Festival</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Raleway", sans-serif;
+        background: #0a0522;
+        color: #fff;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* Ticket Page */
+      .ticket-hero {
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(106, 13, 173, 0.6) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(255, 215, 0, 0.3) 0%,
+            transparent 30%
+          ),
+          linear-gradient(to bottom, #0a0522, #1a103a);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .ticket-hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="none" stroke="rgba(255,215,0,0.05)" stroke-width="0.5" d="M0,0 L100,100 M100,0 L0,100"/></svg>');
+        background-size: 50px 50px;
+        opacity: 0.3;
+        z-index: 0;
+      }
+
+      .ticket-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+      }
+
+      .ticket-title {
+        font-family: "Parisienne", cursive;
+        font-size: 5rem;
+        color: #ffd700;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        line-height: 1.1;
+        animation: pulse 3s ease-in-out infinite;
+      }
+
+      .ticket-subtitle {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 2.5rem;
+        font-weight: 300;
+        letter-spacing: 1px;
+      }
+
+      .divider {
+        width: 150px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        margin: 2rem auto;
+        position: relative;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "✧";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ffd700;
+        font-size: 1.2rem;
+      }
+
+      .divider::before {
+        left: -25px;
+      }
+
+      .divider::after {
+        right: -25px;
+      }
+
+      .ticket-message {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.8;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+      }
+
+      .notify-btn {
+        background: transparent;
+        color: #ffd700;
+        border: 2px solid #ffd700;
+        padding: 1rem 2.5rem;
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .notify-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 215, 0, 0.2),
+          transparent
+        );
+        transition: all 0.6s ease;
+      }
+
+      .notify-btn:hover {
+        background: rgba(255, 215, 0, 0.1);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+      }
+
+      .notify-btn:hover::before {
+        left: 100%;
+      }
+
+      .ticket-footer {
+        position: absolute;
+        bottom: 2rem;
+        width: 100%;
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Animation */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.03);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .ticket-title {
+          font-size: 3.5rem;
+        }
+
+        .ticket-subtitle {
+          font-size: 1.4rem;
+        }
+
+        .ticket-message {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="ticket-hero">
+      <div class="ticket-content">
+        <h1 class="ticket-title">Tickets Coming Soon</h1>
+        <div class="divider"></div>
+        <h2 class="ticket-subtitle">Prepare for an unforgettable experience</h2>
+        <p class="ticket-message">
+          We're putting the final touches on our ticketing system to ensure you
+          get the best experience possible. Sign up below to be the first to
+          know when tickets become available.
+        </p>
+        <button class="notify-btn">Notify Me</button>
+      </div>
+      <div class="ticket-footer">
+        GENERO Festival 2024 • Stay tuned for updates
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Techno-Cultural Festival Schedule</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* SCHEDULE SECTION STYLES */
+      body {
+        margin: 0px;
+        background-color: #0a0522;
+      }
+
+      .festival-schedule {
+        position: relative;
+        padding: 5rem 1rem;
+        background: linear-gradient(to bottom, #0a0522, #1a103a);
+        overflow: hidden;
+      }
+
+      .techno-cultural-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMinYMin slice"><path fill="rgba(255,215,0,0.05)" d="M0,0 L1200,0 L1200,800 Q600,650 0,800 Z"></path><path fill="rgba(255,215,0,0.03)" d="M0,100 L1200,0 L1200,800 Q600,700 0,700 Z"></path><path fill="none" stroke="rgba(255,215,0,0.02)" stroke-width="2" d="M200,400 Q400,300 600,400 T1000,400"></path><path fill="none" stroke="rgba(255,215,0,0.02)" stroke-width="1" d="M100,500 Q300,350 600,500 T1100,500"></path></svg>');
+        background-size: cover;
+        background-position: center bottom;
+        z-index: 0;
+        opacity: 0.7;
+      }
+
+      .schedule-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .section-title {
+        font-family: "Cinzel", serif;
+        font-family: "playfair-display";
+        font-family: "Parisienne", cursive;
+        font-size: 3.5rem;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        letter-spacing: 1px;
+      }
+
+      .section-subtitle {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: #fffff0;
+        opacity: 0.8;
+        font-weight: 300;
+      }
+
+      .schedule-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .schedule-days {
+        position: relative;
+        min-height: 600px;
+        overflow: hidden;
+      }
+
+      .schedule-day {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+      }
+
+      .schedule-day.active {
+        position: relative;
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .day-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .day-title {
+        font-family: "Cinzel", serif;
+        font-size: 2.5rem;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+      }
+
+      .day-date {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.2rem;
+        color: #fffff0;
+        opacity: 0.8;
+      }
+
+      .day-events {
+        display: grid;
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      .event-card {
+        background: rgba(10, 5, 34, 0.7);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.1);
+      }
+
+      .event-time {
+        font-family: "Cinzel", serif;
+        font-size: 1.2rem;
+        color: #ffd700;
+        min-width: 100px;
+        padding-right: 1.5rem;
+        letter-spacing: 1px;
+      }
+
+      .event-details {
+        flex: 1;
+      }
+
+      .event-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .event-description {
+        font-family: "Montserrat", sans-serif;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        margin-bottom: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .event-location {
+        font-family: "Cormorant Garamond", serif;
+        color: rgba(255, 255, 240, 0.9);
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .event-location:before {
+        content: "⌖";
+        margin-right: 0.5rem;
+        color: #ffd700;
+      }
+
+      .star-event {
+        background: rgba(255, 215, 0, 0.1);
+        border-color: rgba(255, 215, 0, 0.4);
+        position: relative;
+      }
+
+      .star-event:after {
+        content: "✧";
+        position: absolute;
+        top: -10px;
+        right: 15px;
+        color: #ffd700;
+        font-size: 1.5rem;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      }
+
+      .star-performer {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px dashed rgba(255, 215, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .star-performer img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ffd700;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+      }
+
+      .performer-info {
+        flex: 1;
+      }
+
+      .performer-name {
+        font-family: "Cinzel", serif;
+        color: #ffd700;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+      }
+
+      .performer-genre {
+        font-family: "Cormorant Garamond", serif;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        font-style: italic;
+      }
+
+      .day-navigation {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .nav-arrow {
+        background: rgba(255, 215, 0, 0.2);
+        color: #ffd700;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 215, 0, 0.5);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-arrow:hover {
+        background: rgba(255, 215, 0, 0.4);
+        transform: scale(1.1);
+      }
+
+      .day-dots {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .day-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        padding: 0;
+      }
+
+      .day-dot.active {
+        background: #ffd700;
+        transform: scale(1.3);
+      }
+
+      /* Mobile Responsiveness */
+      @media (max-width: 768px) {
+        .section-title {
+          font-size: 2.5rem;
+        }
+
+        .section-subtitle {
+          font-size: 1.2rem;
+        }
+
+        .day-title {
+          font-size: 2rem;
+        }
+
+        .event-card {
+          flex-direction: column;
+          padding: 1rem;
+        }
+
+        .event-time {
+          padding-right: 0;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px dashed rgba(255, 215, 0, 0.3);
+          margin-bottom: 0.5rem;
+        }
+
+        .star-performer {
+          flex-direction: column;
+          text-align: center;
+          gap: 1.5rem;
+        }
+
+        .star-performer img {
+          width: 180px;
+          height: 180px;
+        }
+
+        .day-navigation {
+          gap: 1rem;
+        }
+
+        .nav-arrow {
+          width: 40px;
+          height: 40px;
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+    <style>
+      /* Add this to your existing CSS */
+      .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        transition: transform 0.3s ease;
+      }
+
+      .logo img {
+        height: 60px; /* Adjust as needed */
+        width: auto;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      /* Add some padding to the festival-schedule to prevent logo overlap */
+      .festival-schedule {
+        padding-top: 100px; /* Adjust based on your logo height */
+        /* ... keep your existing styles ... */
+      }
+
+      @media (max-width: 768px) {
+        .logo img {
+          height: 50px; /* Smaller logo on mobile */
+        }
+        .festival-schedule {
+          padding-top: 80px; /* Less padding on mobile */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="../index.html" class="logo">
+      <img
+        src="../images/logo.png"
+        alt="GENERO Festival Logo"
+        style="position: fixed"
+      />
+    </a>
+    <section class="festival-schedule">
+      <div class="techno-cultural-bg"></div>
+
+      <div class="schedule-header">
+        <h2 class="section-title">Techno-Cultural Fest</h2>
+        <p class="section-subtitle">
+          Where Technology Meets Tradition - Three Days of Innovation &
+          Creativity
+        </p>
+      </div>
+
+      <div class="schedule-container">
+        <div class="day-navigation">
+          <button class="nav-arrow prev-day">←</button>
+          <div class="day-dots">
+            <button class="day-dot active" data-day="1"></button>
+            <button class="day-dot" data-day="2"></button>
+            <button class="day-dot" data-day="3"></button>
+          </div>
+          <button class="nav-arrow next-day">→</button>
+        </div>
+
+        <div class="schedule-days">
+          <!-- DAY 1 -->
+          <div class="schedule-day active" data-day="1">
+            <div class="day-header">
+              <h3 class="day-title">Day One: Innovation Begins</h3>
+              <p class="day-date">November 15, 2024</p>
+            </div>
+
+            <div class="day-events">
+              <div class="event-card">
+                <div class="event-time">09:00 AM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Tech Treasure Hunt</h4>
+                  <p class="event-description">
+                    Solve tech puzzles and find hidden clues across campus to
+                    win exciting prizes.
+                  </p>
+                  <span class="event-location">Main Quad</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">11:00 AM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Web3 Workshop</h4>
+                  <p class="event-description">
+                    Hands-on session about blockchain, NFTs and the future of
+                    decentralized web.
+                  </p>
+                  <span class="event-location">Tech Lab 1</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">01:00 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Rap Battle Competition</h4>
+                  <p class="event-description">
+                    Showcase your lyrical skills in this high-energy
+                    competition.
+                  </p>
+                  <span class="event-location">Amphitheater</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">03:00 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Game Development Contest</h4>
+                  <p class="event-description">
+                    Build a game in 3 hours using any platform or engine.
+                  </p>
+                  <span class="event-location">Computer Center</span>
+                </div>
+              </div>
+
+              <div class="event-card star-event">
+                <div class="event-time">06:30 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Evening Concert: KR$NA</h4>
+                  <p class="event-description">
+                    India's hip-hop superstar performs his greatest hits live.
+                  </p>
+                  <span class="event-location">Main Stage</span>
+
+                  <div class="star-performer">
+                    <img src="krishna.jpeg" alt="KR$NA" />
+                    <div class="performer-info">
+                      <h5 class="performer-name">KR$NA</h5>
+                      <p class="performer-genre">Hip-Hop Artist</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DAY 2 -->
+          <div class="schedule-day" data-day="2">
+            <div class="day-header">
+              <h3 class="day-title">Day Two: Cultural Fusion</h3>
+              <p class="day-date">November 16, 2024</p>
+            </div>
+
+            <div class="day-events">
+              <div class="event-card">
+                <div class="event-time">09:30 AM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Theatre Competition</h4>
+                  <p class="event-description">
+                    Teams present short plays on contemporary themes.
+                  </p>
+                  <span class="event-location">Auditorium</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">11:30 AM</div>
+                <div class="event-details">
+                  <h4 class="event-name">AI Art Exhibition</h4>
+                  <p class="event-description">
+                    View stunning artworks created using artificial
+                    intelligence.
+                  </p>
+                  <span class="event-location">Gallery Hall</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">02:00 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Dance Competition</h4>
+                  <p class="event-description">
+                    Solo and group performances across various dance styles.
+                  </p>
+                  <span class="event-location">Dance Studio</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">04:00 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Coding Marathon</h4>
+                  <p class="event-description">
+                    3-hour competitive coding challenge with real-world
+                    problems.
+                  </p>
+                  <span class="event-location">Tech Lab 2</span>
+                </div>
+              </div>
+
+              <div class="event-card star-event">
+                <div class="event-time">07:00 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Evening Concert: Seedhe Maut</h4>
+                  <p class="event-description">
+                    The dynamic rap duo performs their cult-favorite tracks.
+                  </p>
+                  <span class="event-location">Main Stage</span>
+
+                  <div class="star-performer">
+                    <img src="seedhe maut.jpeg" alt="Seedhe Maut" />
+                    <div class="performer-info">
+                      <h5 class="performer-name">Seedhe Maut</h5>
+                      <p class="performer-genre">Hip-Hop Duo</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DAY 3 -->
+          <div class="schedule-day" data-day="3">
+            <div class="day-header">
+              <h3 class="day-title">Day Three: Grand Finale</h3>
+              <p class="day-date">November 17, 2024</p>
+            </div>
+
+            <div class="day-events">
+              <div class="event-card">
+                <div class="event-time">10:00 AM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Singing Competition</h4>
+                  <p class="event-description">
+                    Solo and group performances across genres.
+                  </p>
+                  <span class="event-location">Auditorium</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">12:00 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Tech Quiz</h4>
+                  <p class="event-description">
+                    Test your knowledge of technology and innovation.
+                  </p>
+                  <span class="event-location">Seminar Hall</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">02:30 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Startup Pitch Competition</h4>
+                  <p class="event-description">
+                    Present your innovative ideas to a panel of judges.
+                  </p>
+                  <span class="event-location">Business Center</span>
+                </div>
+              </div>
+
+              <div class="event-card">
+                <div class="event-time">04:30 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Fashion Show</h4>
+                  <p class="event-description">
+                    Traditional and contemporary styles on the runway.
+                  </p>
+                  <span class="event-location">Main Quad</span>
+                </div>
+              </div>
+
+              <div class="event-card star-event">
+                <div class="event-time">07:30 PM</div>
+                <div class="event-details">
+                  <h4 class="event-name">Grand Finale: Raftaar</h4>
+                  <p class="event-description">
+                    The rap icon closes the festival with an electrifying
+                    performance.
+                  </p>
+                  <span class="event-location">Main Stage</span>
+
+                  <div class="star-performer">
+                    <img src="raftaar.jpg" alt="Raftaar" />
+                    <div class="performer-info">
+                      <h5 class="performer-name">Raftaar</h5>
+                      <p class="performer-genre">Rap Artist</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const days = document.querySelectorAll(".schedule-day");
+        const dots = document.querySelectorAll(".day-dot");
+        const prevBtn = document.querySelector(".prev-day");
+        const nextBtn = document.querySelector(".next-day");
+
+        let currentDay = 1;
+        const totalDays = 3;
+
+        function showDay(dayNumber) {
+          // Hide all days
+          days.forEach((day) => {
+            day.classList.remove("active");
+          });
+
+          // Show selected day
+          document
+            .querySelector(`.schedule-day[data-day="${dayNumber}"]`)
+            .classList.add("active");
+
+          // Update dots
+          dots.forEach((dot) => {
+            dot.classList.remove("active");
+          });
+          document
+            .querySelector(`.day-dot[data-day="${dayNumber}"]`)
+            .classList.add("active");
+
+          currentDay = dayNumber;
+        }
+
+        // Dot navigation
+        dots.forEach((dot) => {
+          dot.addEventListener("click", function () {
+            const dayNumber = parseInt(this.getAttribute("data-day"));
+            showDay(dayNumber);
+          });
+        });
+
+        // Arrow navigation
+        prevBtn.addEventListener("click", function () {
+          const newDay = currentDay > 1 ? currentDay - 1 : totalDays;
+          showDay(newDay);
+        });
+
+        nextBtn.addEventListener("click", function () {
+          const newDay = currentDay < totalDays ? currentDay + 1 : 1;
+          showDay(newDay);
+        });
+
+        // Initialize with day 1
+        showDay(1);
+      });
+    </script>
+  </body>
+</html>
